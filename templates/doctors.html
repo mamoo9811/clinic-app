@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Doctors{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Doctors</h2>
+    <a href="{{ url_for('add_doctor') }}" class="btn btn-primary">+ Add Doctor</a>
+</div>
+
+{% if doctors %}
+<table class="table table-striped bg-white shadow-sm">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Specialty</th>
+            <th>Phone</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in doctors %}
+        <tr>
+            <td>{{ d.name }}</td>
+            <td>{{ d.specialty }}</td>
+            <td>{{ d.phone or '-' }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('delete_doctor', doctor_id=d.id) }}"
+                      onsubmit="return confirm('Delete this doctor?');" class="d-inline">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-muted">No doctors yet.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Book Appointment{% endblock %}
+{% block content %}
+<h2 class="mb-4">Book Appointment</h2>
+
+{% if not patients or not doctors %}
+<div class="alert alert-warning">
+    You need at least one patient and one doctor before booking an appointment.
+</div>
+{% endif %}
+
+<form method="POST" class="bg-white p-4 rounded shadow-sm" style="max-width: 500px;">
+    <div class="mb-3">
+        <label class="form-label">Patient</label>
+        <select name="patient_id" class="form-select" required>
+            {% for p in patients %}
+            <option value="{{ p.id }}">{{ p.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Doctor</label>
+        <select name="doctor_id" class="form-select" required>
+            {% for d in doctors %}
+            <option value="{{ d.id }}">{{ d.name }} ({{ d.specialty }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Date</label>
+        <input type="date" name="appointment_date" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Time</label>
+        <input type="time" name="appointment_time" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Reason</label>
+        <input type="text" name="reason" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Book Appointment</button>
+    <a href="{{ url_for('appointments') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
